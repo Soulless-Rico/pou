@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pou Demo</title>
+    <link rel="stylesheet" href="css/pou.css">
+</head>
+<body>
+
+    <div id="pou">
+        <div class="eye left">
+            <div class="pupil"></div>
+        </div>
+        <div class="eye right">
+            <div class="pupil"></div>
+        </div>
+        <div id="mouth"></div>
+    </div>
+
+    <section>
+        <fieldset>
+            <label>Hunger: <span id="hunger">Loading...</span></label>
+            <button onclick="feed()">Feed</button>
+            <br>
+
+            <label>Thrist: <span id="thirst">Loading...</span></label>
+            <button onclick="drink()">Drink</button>
+            <br>
+
+            <label>Energy: <span id="energy">Loading...</span></label>
+            <button>Sleep</button>
+            <br>
+
+            <label>Fun: <span id="fun">Loading...</span></label>
+            <button>Play</button>
+            <br>
+
+            <label>Hygiene: <span id="hygiene">Loading...</span></label>
+            <button onclick="washYourBalls()">Clean</button>
+            <br>
+
+            <label>Coins: <span id="coins">Loading...</span></label>
+            <button onclick="loadMiniGame()">get coins by playing wordle</button>
+            <br>
+
+            <label>Level: <span id="level">Loading...</span></label>
+            <button>Level up</button>
+
+            <label>Stress: <span id="stress">Loading...</span></label>
+            <button onclick="smokeWeedEveryday()">Smoke Weed</button>
+        </fieldset>
+    </section>
+</body>
+
+    <script src="js/eyes.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/minigame.js"></script>
+    
+</html>
