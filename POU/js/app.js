@@ -8,6 +8,7 @@ function initializingStats() {
         coins: 100,
         stress: 0,
         level: 1,
+        xpToNext: 100,
         xp: 0,
         health: 100
     };
@@ -31,6 +32,7 @@ if (savedPou) {
     const stressEl = document.getElementById("stress");
     const levelEl = document.getElementById("level");
     const healthBar = document.getElementById('main-health-bar');
+    const xpBar = document.getElementbyId('main-xp-bar');
     const healthEl = document.getElementById('pouHealth');
 
     setInterval(() => {
@@ -53,6 +55,25 @@ function updateHealth(value) {
 // Example:
 updateHealth(75);  // Sets health bar to 75%
 
+function addXP(amount) {
+    pou.xp += amount;
+
+    // Check level up
+    while (pou.xp >= pou.xpToNext) {
+        pou.xp -= pou.xpToNext;
+        pou.level++;
+
+        // každým levelom potrebné XP mierne rastú
+        pou.xpToNext = Math.floor(pou.xpToNext * 1.25);
+
+        console.log(`LEVEL UP! Teraz máš level ${pou.level}.`);
+    }
+    
+    clampStats();
+    savePou();
+    render();
+}
+
 
 function feed() {
     if (pou.coins < 5) {
@@ -62,6 +83,7 @@ function feed() {
     pou.hunger += 20;
     pou.coins -= 5;
 
+    addXP(10);
     clampStats();
     savePou();
     render();
@@ -76,6 +98,7 @@ function drink() {
     pou.thirst += 15;
     pou.coins -= 3;
 
+    addXP(6);
     clampStats();
     savePou();
     render();
@@ -89,6 +112,7 @@ function smokeWeedEveryday() {
     pou.stress -= 50;
     pou.coins -= 20;
 
+    addXP(10);
     clampStats();
     savePou();
     render()
@@ -102,6 +126,7 @@ function washYourBalls() {
     pou.hygiene += 100;
     pou.coins -= 8;
 
+    addXP(10);
     clampStats();
     savePou();
     render();
@@ -115,6 +140,8 @@ function sleep() {
 
     pou.hygiene -= 50;
     pou.energy = 100;
+
+    addXP(10);
     clampStats();
     savePou();
     render();
@@ -178,6 +205,8 @@ function playGTA() {
     pou.energy -= 20;
     pou.thirst -= 20;
 
+    addXP(30);
+    savePou();
     render();
 }
 
