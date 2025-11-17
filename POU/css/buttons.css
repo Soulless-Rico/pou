@@ -1,0 +1,34 @@
+
+section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+fieldset {
+    display: flex;
+    flex-direction: row;   /* <-- puts everything in one row */
+    gap: 30px;             /* space between each column */
+    padding: 20px 40px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.6);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Make each (label + button) a column */
+fieldset div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+fieldset button {
+    margin-top: 6px;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: #000;
+    color: white;
+    cursor: pointer;
+}

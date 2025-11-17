@@ -1,0 +1,19 @@
+/* Main Health Bar Container */
+#main-health-container {
+    width: 80%;             /* adjusts width of the health bar */
+    height: 30px;           /* height of the bar */
+    background: #ddd;       /* gray background for empty bar */
+    border-radius: 15px;
+    margin: 30px auto 0;    /* centered horizontally, space above */
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+/* Actual Health Level */
+#main-health-bar {
+    width: 100%;            /* fill bar initially */
+    height: 100%;
+    background: linear-gradient(90deg, #ff4b4b, #ff8c42); /* red-to-orange gradient */
+    border-radius: 15px 0 0 15px;
+    transition: width 0.3s ease;  /* smooth decreasing effect */
+}
