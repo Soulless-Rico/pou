@@ -1,14 +1,19 @@
-let pou = {
-    thirst: 0,
-    hunger: 0,
-    energy: 100,
-    fun: 100,
-    hygiene: 100,
-    coins: 100,
-    stress: 0,
-    level: 1,
-    xp: 0
-};
+function initializingStats() {
+    let pou = {
+        thirst: 100,
+        hunger: 100,
+        energy: 100,
+        fun: 100,
+        hygiene: 100,
+        coins: 100,
+        stress: 0,
+        level: 1,
+        xp: 0,
+        health: 100
+    };
+}
+
+initializingStats();
 
 const savedPou = localStorage.getItem("pouData");
 if (savedPou) {
@@ -25,35 +30,46 @@ if (savedPou) {
     const coinsEl = document.getElementById("coins");
     const stressEl = document.getElementById("stress");
     const levelEl = document.getElementById("level");
+    const healthBar = document.getElementById('main-health-bar');
+    const healthEl = document.getElementById('pouHealth');
 
     setInterval(() => {
-    pou.thirst += 1;
-    pou.hunger += 1; // hunger = hunger + 1
-    pou.energy -= 1;
-    pou.fun -= 1;
-    pou.hygiene -= 1;
-    pou.stress += 1;
+    pou.thirst--;
+    pou.hunger--; 
+    pou.energy--;
+    pou.fun--;
+    pou.hygiene--;
+    pou.stress++;
 
     clampStats();
     savePou();
-    //render();
-}, 60000); // každú minútu
+    render();
+}, 30000); // 30 sec
+
+function updateHealth(value) {
+    healthBar.style.width = value + '%';  // value = 0 to 100
+}
+
+// Example:
+updateHealth(75);  // Sets health bar to 75%
+
 
 function feed() {
     if (pou.coins < 5) {
-        console.warn("Nedostatok coinov!"); 
+        alert("Need 5 coins u brokie"); 
         return; 
     }
-    pou.hunger -= 20;
+    pou.hunger += 20;
     pou.coins -= 5;
 
     clampStats();
     savePou();
+    render();
 }
 
 function drink() {
     if (pou.coins < 3) {  //pitie stojí 3 coiny
-        console.warn("Nedostatok coinov na drink!");
+        alert("Need 3 coins u brokie");
         return;
     }
 
@@ -62,12 +78,12 @@ function drink() {
 
     clampStats();
     savePou();
-   // renderStats();
+    render();
 }
 
 function smokeWeedEveryday() {
     if (pou.coins < 20) {
-        console.warn("Nedostatok coinov na weed!");
+        alert("Need 20 coins u brokie");
         return;
     }
     pou.stress -= 50;
@@ -75,11 +91,12 @@ function smokeWeedEveryday() {
 
     clampStats();
     savePou();
+    render()
 }
 
 function washYourBalls() {
     if (pou.coins < 8) {
-        console.warn("Nedostatok coinov na mydlo!");
+        alert("Need 8 coins u brokie");
         return;
     }
     pou.hygiene += 100;
@@ -87,15 +104,57 @@ function washYourBalls() {
 
     clampStats();
     savePou();
-
+    render();
 }
 
 function sleep() {
+        if (pou.hygiene < 50) {
+        alert("You cant go to bed smelling like that!");
+        return;
+    }
+
+    pou.hygiene -= 50;
     pou.energy = 100;
     clampStats();
     savePou();
+    render();
 }
 
+function collectProfits() {
+    if (pou.hygiene < 30) {
+        alert("You cant go collect profits smelling like that !");
+        return;
+    }
+
+    rainMoney();
+    pou.hygiene -= 30;
+    pou.coins += 20;
+    render();
+}
+
+function rainMoney() {
+    const container = document.getElementById('money-rain');
+
+    for (let i = 0; i < 100; i++) {  // amount of bills
+        const money = document.createElement('div');
+        money.classList.add('money');
+
+        // random horizontal start
+        money.style.left = Math.random() * 100 + 'vw';
+        // random animation duration
+        money.style.animationDuration = (2 + Math.random() * 2) + 's';
+        // random size
+        money.style.width = money.style.height = (20 + Math.random() * 20) + 'px';
+        money.innerText = "💵"; // makes it visually money
+
+        container.appendChild(money);
+
+        // remove element after animation
+        money.addEventListener('animationend', () => {
+            money.remove();
+        });
+    }
+}
 
 function clampStats() {
     for (let key in pou) {
@@ -104,10 +163,75 @@ function clampStats() {
             if (pou[key] > 100) pou[key] = 100;
         }
     }
+    render();
+}
+
+function playGTA() {
+    if (pou.hunger < 50 || pou.energy < 50 || pou.thirst < 50 || pou.hygiene < 50) {
+        alert('Clean your ass, eat some food, drink some water and for gods sake take a shower !')
+        return;
+    }
+
+    pou.fun += 100;
+    pou.hygiene -= 20;
+    pou.hunger -= 20;
+    pou.energy -= 20;
+    pou.thirst -= 20;
+
+    render();
 }
 
 function savePou() {
     localStorage.setItem("pouData", JSON.stringify(pou));
+}
+
+function checkPouStatus() {
+    if (pou.fun <= 0) {
+        alert('Pou is dying of depression')
+        pou.health -= 5;
+    }
+    if (pou.energy <= 0) {
+        alert('Pou is dying of exhaustion')
+        pou.health -= 5;
+    }
+    if (pou.hunger <= 0) {
+        alert('Pou is dying of hunger')
+        pou.health -= 5;
+    }
+    if (pou.thirst <= 0) {
+        alert('Pou is dying of thirst')
+        pou.health -= 5;
+    }
+    if (pou.stress <= 0) {
+        alert('Pou is dying of anxiety')
+        pou.health -= 5;
+    }
+    if (pou.hygiene <= 0) {
+        alert('Pou is dying from the smell of his own armpits')
+        pou.health -= 5;
+    }
+
+    if (pou.health <= 0) {
+        alert('Pou is dead, you are indeed one hell of a failure, reseting game')
+        localStorage.clear();
+        initializingStats();
+    }
+}
+
+function autoRender() {
+    
+    thirstEl.innerText = pou.thirst;
+    hungerEl.innerText = pou.hunger;
+    energyEl.innerText = pou.energy;
+    funEl.innerText = pou.fun;
+    hygieneEl.innerText = pou.hygiene;
+    coinsEl.innerText = pou.coins;
+    levelEl.innerText = pou.level;
+    stressEl.innerText = pou.stress;
+    healthEl.innerText = pou.health;
+    updateHealth(pou.health);
+
+    setTimeout(autoRender, 1000);
 }
 
 function render() {
@@ -119,10 +243,9 @@ function render() {
     hygieneEl.innerText = pou.hygiene;
     coinsEl.innerText = pou.coins;
     levelEl.innerText = pou.level;
-    console.log('rendering!');
-
-    setTimeout(render, 1000);
+    stressEl.innerText = pou.stress;
+    healthEl.innerText = pou.health;
+    updateHealth(pou.health);
 }
 
-render();
-
+autoRender();
