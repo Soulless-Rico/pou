@@ -4,56 +4,95 @@
     <meta charset="UTF-8">
     <title>Pou Demo</title>
     <link rel="stylesheet" href="css/pou.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/health.css">
+    <link rel="stylesheet" href="css/moneyRain.css">
 </head>
 <body>
 
     <div id="pou">
+
+        <!-- Eyes -->
         <div class="eye left">
             <div class="pupil"></div>
         </div>
         <div class="eye right">
             <div class="pupil"></div>
         </div>
-        <div id="mouth"></div>
+
+        <!-- Mouth (cigar attaches from here) -->
+        <div id="mouth">
+            <div id="smoke">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!-- Suit + Tie -->
+        <div id="suit">
+            <div id="tie"></div>
+        </div>
+
+        <!-- Hat Brim (must be inside pou!) -->
+        <div class="hat-brim"></div>
     </div>
+
+        <!-- Money rain container -->
+    <div id="money-rain"></div>
 
     <section>
         <fieldset>
-            <label>Hunger: <span id="hunger">Loading...</span></label>
-            <button onclick="feed()">Feed</button>
-            <br>
 
-            <label>Thrist: <span id="thirst">Loading...</span></label>
-            <button onclick="drink()">Drink</button>
-            <br>
+            <div>
+                <label>Hunger: <span id="hunger">Loading...</span></label>
+                <button onclick="feed()">Feed</button>
+            </div>
 
-            <label>Energy: <span id="energy">Loading...</span></label>
-            <button>Sleep</button>
-            <br>
+            <div>
+                <label>Thrist: <span id="thirst">Loading...</span></label>
+                <button onclick="drink()">Drink</button>
+            </div>
+            
+            <div>
+                <label>Energy: <span id="energy">Loading...</span></label>
+                <button onclick="sleep()">Sleep</button>
+            </div>
 
-            <label>Fun: <span id="fun">Loading...</span></label>
-            <button>Play</button>
-            <br>
+            <div>
+                <label>Fun: <span id="fun">Loading...</span></label>
+                <button onclick="playGTA()">Play GTA V</button>
+            </div>
 
-            <label>Hygiene: <span id="hygiene">Loading...</span></label>
-            <button onclick="washYourBalls()">Clean</button>
-            <br>
+            <div>
+                <label>Hygiene: <span id="hygiene">Loading...</span></label>
+                <button onclick="washYourBalls()">Clean</button>
+            </div>
 
-            <label>Coins: <span id="coins">Loading...</span></label>
-            <button onclick="loadMiniGame()">get coins by playing wordle</button>
-            <br>
+            <div>
+                <label>Coins: <span id="coins">Loading...</span></label>
+                <button onclick="collectProfits()">Collect daily profits</button>
+            </div>
 
-            <label>Level: <span id="level">Loading...</span></label>
-            <button>Level up</button>
+            <div>
+                <label>Level: <span id="level">Loading...</span></label>
+                <button>i dunno</button>
+            </div>
 
-            <label>Stress: <span id="stress">Loading...</span></label>
-            <button onclick="smokeWeedEveryday()">Smoke Weed</button>
+            <div>
+                <label>Stress: <span id="stress">Loading...</span></label>
+                <button onclick="smokeWeedEveryday()">Smoke Weed</button>    
+            </div>
+
         </fieldset>
     </section>
-</body>
+
+    <div id="main-health-container">
+        <div id="main-health-bar"><span id="pouHealth">Loading...</span></div>
+    </div>
 
     <script src="js/eyes.js"></script>
     <script src="js/app.js"></script>
     <script src="js/minigame.js"></script>
-    
+
+</body>
 </html>
