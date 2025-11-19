@@ -190,7 +190,6 @@ function sleep() {
     pou.hygiene -= 50;
     pou.energy = 100;
 
-    addXP(10);
     clampStats();
     savePou();
     render();
@@ -415,20 +414,24 @@ function autoRender() {
     healthEl.innerText = pou.health;
     updateHealth(pou.health);
 
-    setTimeout(autoRender, 1000);
+    setInterval(autoRender, 1000);
+}
+
+function safeDisplay(value) {
+    return (typeof value === "number" && !isNaN(value)) ? value : 0;
 }
 
 function render() {
     
-    thirstEl.innerText = pou.thirst;
-    hungerEl.innerText = pou.hunger;
-    energyEl.innerText = pou.energy;
-    funEl.innerText = pou.fun;
-    hygieneEl.innerText = pou.hygiene;
-    coinsEl.innerText = pou.coins;
-    levelEl.innerText = pou.level;
-    stressEl.innerText = pou.stress;
-    healthEl.innerText = pou.health;
+    thirstEl.innerText = safeDisplay(pou.thirst);
+    hungerEl.innerText = safeDisplay(pou.hunger);
+    energyEl.innerText = safeDisplay(pou.energy);
+    funEl.innerText = safeDisplay(pou.fun);
+    hygieneEl.innerText = safeDisplay(pou.hygiene);
+    coinsEl.innerText = safeDisplay(pou.coins);
+    levelEl.innerText = safeDisplay(pou.level);
+    stressEl.innerText = safeDisplay(pou.stress);
+    healthEl.innerText = safeDisplay(pou.health);
     updateHealth(pou.health);
 }
 
