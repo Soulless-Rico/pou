@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/buttons.css">
     <link rel="stylesheet" href="css/health.css">
     <link rel="stylesheet" href="css/moneyRain.css">
+    <link rel="stylesheet" href="css/casino.css">
 </head>
 <body>
 
@@ -39,6 +40,22 @@
 
         <!-- Money rain container -->
     <div id="money-rain"></div>
+
+        <!-- Casino -->
+    <div id="casino">
+    <div id="slot-machine">
+        <div class="reel" id="reel1"></div>
+        <div class="reel" id="reel2"></div>
+        <div class="reel" id="reel3"></div>
+    </div>
+
+    <div id="lever">
+        <div id="lever-stick"></div>
+        <div id="lever-knob"></div>
+    </div>
+    </div>
+
+    <div id="slot-result"></div>
 
     <section>
         <fieldset>
@@ -81,6 +98,11 @@
             <div>
                 <label>Stress: <span id="stress">Loading...</span></label>
                 <button onclick="smokeWeedEveryday()">Smoke Weed</button>    
+            </div>
+
+            <div>
+                <label>Casino: <span id="casino-button"></span></label>
+                <button id="spinBtn">SPIN (15 coins)</button>    
             </div>
 
         </fieldset>
