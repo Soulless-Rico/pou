@@ -10,7 +10,10 @@ function initializingStats() {
         level: 1,
         xpToNext: 100,
         xp: 0,
-        health: 100
+        health: 100,
+        xpMultiplier: 1,
+        hungerGainMultiplier: 1,
+        foodCostMultiplier: 1,
     };
 }
 
@@ -22,6 +25,38 @@ if (savedPou) {
 } else {
     savePou();
 }
+
+const skills = {
+    cheapFood: {
+        id: "cheapFood",
+        name: "Lacnejšie jedlo",
+        requiredLevel: 3,
+        unlocked: false,
+        effect() {
+            pou.foodCostMultiplier = 0.8; // 20% discount
+        }
+    },
+
+    fastHunger: {
+        id: "fastHunger",
+        name: "Rýchlejšie sýtenie",
+        requiredLevel: 5,
+        unlocked: false,
+        effect() {
+            pou.hungerGainMultiplier = 1.3; // +30% hunger
+        }
+    },
+
+    xpBoost: {
+        id: "xpBoost",
+        name: "XP Boost",
+        requiredLevel: 7,
+        unlocked: false,
+        effect() {
+            pou.xpMultiplier = 1.5; // +50% xp
+        }
+    }
+};
 
     const thirstEl = document.getElementById("thirst");
     const hungerEl = document.getElementById("hunger");
@@ -77,6 +112,7 @@ function addXP(amount) {
         console.log(`LEVEL UP! Teraz máš level ${pou.level}.`);
     }
     
+    renderSkillTree();
     clampStats();
     savePou();
     render();
@@ -84,14 +120,19 @@ function addXP(amount) {
 
 
 function feed() {
-    if (pou.coins < 5) {
-        alert("Need 5 coins u brokie"); 
-        return; 
-    }
-    pou.hunger += 20;
-    pou.coins -= 5;
+    const baseCost = 5 * pou.foodCostMultiplier;
 
-    addXP(10);
+    if (pou.coins < baseCost) {
+        console.log("Nedostatok coinov.");
+        return;
+    }
+
+    pou.coins -= baseCost;
+
+    const baseGain = 20 * pou.hungerGainMultiplier;
+    pou.hunger += baseGain;
+
+    addXP(10 * pou.xpMultiplier);
     clampStats();
     savePou();
     render();
@@ -191,6 +232,25 @@ function rainMoney() {
     }
 }
 
+function unlockSkill(id) {
+    const skill = skills[id];
+    if (!skill) return;
+
+    if (skill.unlocked) {
+        console.log("Skill už je odomknutý.");
+        return;
+    }
+
+    if (pou.level < skill.requiredLevel) {
+        console.log(`Potrebný level: ${skill.requiredLevel}`);
+        return;
+    }
+
+    skill.unlocked = true;
+    skill.effect(); // aktivuje perk
+    console.log(`Skill '${skill.name}' odomknutý!`);
+}
+
 function clampStats() {
     for (let key in pou) {
         if (typeof pou[key] === "number") { // zabezpečí, aby v objekte pou boli iba čísla
@@ -216,6 +276,21 @@ function playGTA() {
     addXP(30);
     savePou();
     render();
+}
+
+function renderSkillTree() {
+    const div = document.getElementById("skills");
+    div.innerHTML = "";
+
+    Object.values(skills).forEach(skill => {
+        const btn = document.createElement("button");
+        btn.textContent = `${skill.name} (lvl ${skill.requiredLevel})`;
+        btn.disabled = skill.unlocked || pou.level < skill.requiredLevel;
+
+        btn.onclick = () => unlockSkill(skill.id);
+
+        div.appendChild(btn);
+    });
 }
 
 function savePou() {
