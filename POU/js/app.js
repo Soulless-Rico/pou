@@ -1,5 +1,5 @@
 function initializingStats() {
-    let pou = {
+    return {
         thirst: 100,
         hunger: 100,
         energy: 100,
@@ -15,13 +15,28 @@ function initializingStats() {
         hungerGainMultiplier: 1,
         foodCostMultiplier: 1,
     };
-}
+};
 
-initializingStats();
+let pou = initializingStats();
 
 const savedPou = localStorage.getItem("pouData");
 if (savedPou) {
     pou = JSON.parse(savedPou);
+        pou.thirst = Number(pou.thirst) || 100;
+        pou.hunger = Number(pou.hunger) || 100;
+        pou.energy = Number(pou.energy) || 100;
+        pou.fun = Number(pou.fun) || 100;
+        pou.hygiene = Number(pou.hygiene) || 100;
+        pou.coins = Number(pou.coins) || 100;
+        pou.stress = Number(pou.stress) || 0;
+        pou.level = Number(pou.level) || 1;
+        pou.xpToNext = Number(pou.xpToNext) || 100;
+        pou.xp = Number(pou.xp) || 0;
+        pou.health = Number(pou.health) || 100;
+
+        pou.xpMultiplier = pou.xpMultiplier || 1;
+        pou.hungerGainMultiplier = pou.hungerGainMultiplier || 1;
+        pou.foodCostMultiplier = pou.foodCostMultiplier || 1;
 } else {
     savePou();
 }
@@ -67,7 +82,7 @@ const skills = {
     const stressEl = document.getElementById("stress");
     const levelEl = document.getElementById("level");
     const healthBar = document.getElementById('main-health-bar');
-    const xpBar = document.getElementbyId('main-xp-bar');
+    const xpBar = document.getElementById('main-xp-bar');
     const healthEl = document.getElementById('pouHealth');
 
     setInterval(() => {
@@ -112,9 +127,9 @@ function addXP(amount) {
 
 
 function feed() {
-    const baseCost = 5 * pou.foodCostMultiplier;
+    const baseCost = 5 * Number(pou.foodCostMultiplier);
 
-    if (pou.coins < baseCost) {
+    if (Number(pou.coins) < baseCost) {
         console.log("Nedostatok coinov.");
         return;
     }
@@ -131,7 +146,7 @@ function feed() {
 }
 
 function drink() {
-    if (pou.coins < 3) {  //pitie stojí 3 coiny
+    if (Number(pou.coins) < 3) {  //pitie stojí 3 coiny
         alert("Need 3 coins u brokie");
         return;
     }
@@ -146,7 +161,7 @@ function drink() {
 }
 
 function smokeWeedEveryday() {
-    if (pou.coins < 20) {
+    if (Number(pou.coins) < 20) {
         alert("Need 20 coins u brokie");
         return;
     }
@@ -160,7 +175,7 @@ function smokeWeedEveryday() {
 }
 
 function washYourBalls() {
-    if (pou.coins < 8) {
+    if (Number(pou.coins) < 8) {
         alert("Need 8 coins u brokie");
         return;
     }
@@ -174,7 +189,7 @@ function washYourBalls() {
 }
 
 function sleep() {
-        if (pou.hygiene < 50) {
+        if (Number(pou.hygiene) < 50) {
         alert("You cant go to bed smelling like that!");
         return;
     }
@@ -188,7 +203,7 @@ function sleep() {
 }
 
 function collectProfits() {
-    if (pou.hygiene < 30) {
+    if (Number(pou.hygiene) < 30) {
         alert("You cant go collect profits smelling like that !");
         return;
     }
